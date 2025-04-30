@@ -10,14 +10,12 @@ import { FormsModule } from '@angular/forms';
     <div>
       <h2>Componente Filho:</h2>
       <h3>Digite seu nome:</h3>
-      <input type="text" [(ngModel)]="nome" (input)="atualizarNome(nome)">
+      <input type="text" (input)="atualizarNome($event)" [value]="nomeDigitado()">
       <button (click)="incrementar()">Clique aqui: {{ contador() }} vezes</button>
     </div>
   `,
 })
 export class MeuFormComponent {
-  nome = '';
-
   @Input() nomeDigitado!: WritableSignal<string>;
   @Input() contador!: WritableSignal<number>;
 
@@ -25,7 +23,7 @@ export class MeuFormComponent {
     this.contador.update(c => c + 1)
   }
 
-  atualizarNome(novoNome: string) {
-    this.nomeDigitado.update(o => novoNome);
+  atualizarNome(event: any | string) {
+    this.nomeDigitado.update(o => event?.target?.value);
   }
 }
