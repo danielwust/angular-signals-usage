@@ -18,34 +18,36 @@ import { MeuFormComponent } from './meu-form/meu-form.component';
 
     <div>
       <h3>Digite seu nome:</h3>
-      <input type="text" (input)="atualizarNome($event)" [value]="nomeDigitadoFilho()">
-      <p>Nome digitado no pai: {{ nomeDigitadoFilho() }}</p>
+      <input type="text" (input)="atualizarNome($event)" [value]="nomeDigitado()">
+      <p>Nome digitado no pai: {{ nomeDigitado() }}</p>
     </div>
 
     <div>
       <h3>Contador do Pai:</h3>
-      <p>Valor: {{ contadorFilho() }}</p>
-      <button (click)="decrementarcontadorFilho()">Decrementar Contador do Pai</button>
+      <p>Valor: {{ contador() }}</p>
+      <button (click)="atualizarContador(-1)">Decrementar Contador do Pai</button>
     </div>
 
-    <p>Nome digitado no filho: {{ nomeDigitadoFilho() }}</p>
-    <p>Contador do filho: {{ contadorFilho() }}</p>
+    <p>Nome digitado no filho: {{ nomeDigitado() }}</p>
+    <p>Contador do filho: {{ contador() }}</p>
 
     <app-meu-form
-      [contador]="contadorFilho"
-      [nomeDigitado]="nomeDigitadoFilho"
+      [contador]="contador"
+      [nomeDigitado]="nomeDigitado"
+      [atualizarNome]="atualizarNome"
+      [atualizarContador]="atualizarContador"
     ></app-meu-form>
   `,
 })
 export class AppComponent {
-  contadorFilho = signal(0);
-  nomeDigitadoFilho = signal('');
+  contador = signal(0);
+  nomeDigitado = signal('');
 
-  decrementarcontadorFilho() {
-    this.contadorFilho.update(c => c - 1);
+  atualizarContador(n = 0) {
+    this.contador.update(c => c - n);
   }
 
   atualizarNome(event: any | string) {
-    this.nomeDigitadoFilho.update(o => event?.target?.value);
+    this.nomeDigitado.update(o => event?.target?.value);
   }
 }

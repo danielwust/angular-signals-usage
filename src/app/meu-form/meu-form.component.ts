@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
       <h2>Componente Filho:</h2>
       <h3>Digite seu nome:</h3>
       <input type="text" (input)="atualizarNome($event)" [value]="nomeDigitado()">
-      <button (click)="incrementar()">Clique aqui: {{ contador() }} vezes</button>
+      <button (click)="atualizarContador(1)">Clique aqui: {{ contador() }} vezes</button>
     </div>
   `,
 })
@@ -19,11 +19,6 @@ export class MeuFormComponent {
   @Input() nomeDigitado!: WritableSignal<string>;
   @Input() contador!: WritableSignal<number>;
 
-  incrementar() {
-    this.contador.update(c => c + 1)
-  }
-
-  atualizarNome(event: any | string) {
-    this.nomeDigitado.update(o => event?.target?.value);
-  }
+  @Input() atualizarContador!: (event: any | string) => void;
+  @Input() atualizarNome!: (event: any | string) => void;
 }
