@@ -5,13 +5,17 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-meu-form',
   standalone: true,
   imports: [FormsModule],
-  styleUrl: './meu-form.component.css',
+  styleUrl: '../default-style.css',
   template: `
+    <h1 style="color: yellowgreen;">Componente Filho</h1>
+
     <div>
-      <h2>Componente Filho:</h2>
       <h3>Digite seu nome:</h3>
       <input type="text" (input)="atualizarNome($event)" [value]="nomeDigitado()">
-      <button (click)="atualizarContador(1)">Clique aqui: {{ contador() }} vezes</button>
+      <button (click)="atualizarContador(-1)">Decrementar Contador</button>
+
+      <p>Nome digitado no Filho: {{ nomeDigitado() }}</p>
+      <p>Contador do Filho: {{ contador() }}</p>
     </div>
   `,
 })
