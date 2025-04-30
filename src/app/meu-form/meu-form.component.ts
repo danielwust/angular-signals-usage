@@ -1,15 +1,16 @@
-import { Component, signal, Output, EventEmitter } from '@angular/core';
+import { Component, Input, signal, WritableSignal, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Signal } from '@angular/core';
 
 @Component({
   selector: 'app-meu-form',
-  imports: [FormsModule],
   standalone: true,
+  imports: [FormsModule],
   template: `
     <div>
       <h2>Digite seu nome:</h2>
-      <input type="text" [(ngModel)]="nome" (input)="nomeDigitadoChange.emit(nome)">
-      <button (click)="incrementarContador()">Clique aqui: {{ contador() }} vezes</button>
+      <input type="text" [(ngModel)]="nome" (input)="atualizarNomeNoPai(nome)">
+      <button (click)="incrementar()">Clique aqui: {{ contadorInterno() }} vezes</button>
     </div>
   `,
   styles: [`
@@ -31,13 +32,20 @@ import { FormsModule } from '@angular/forms';
 })
 export class MeuFormComponent {
   nome = '';
-  contador = signal(0);
 
-  @Output() contadorMudou = new EventEmitter<number>();
-  @Output() nomeDigitadoChange = new EventEmitter<string>();
+  @Input() nomeDigitado!: Signal<string>;
+  @Input() contador!: WritableSignal<number>;
+  @Output() atualizarNome = new EventEmitter<string>();
+  @Output() incrementarContador = new EventEmitter<number>();
 
-  incrementarContador() {
-    this.contador.update(valor => valor + 1);
-    this.contadorMudou.emit(this.contador());
+  contadorInterno = signal(0);
+
+  atualizarNomeNoPai(novoNome: string) {
+    this.atualizarNome.emit(novoNome);
+  }
+
+  incrementar() {
+    this.contadorInterno.update(c => c + 1);
+    this.incrementarContador.emit(1);
   }
 }

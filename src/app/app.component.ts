@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { MeuFormComponent } from './meu-form/meu-form.component';
 import { CommonModule } from '@angular/common';
 
@@ -9,10 +9,12 @@ import { CommonModule } from '@angular/common';
   template: `
     <h1>Componente Pai</h1>
     <app-meu-form
-      (contadorMudou)="atualizarContador($event)"
-      (nomeDigitadoChange)="atualizarNomeDigitado($event)"
+      [contador]="contadorFilho"
+      [nomeDigitado]="nomeDigitadoFilho"
+      (atualizarNome)="atualizarNomeDigitado($event)"
+      (incrementarContador)="incrementar()"
     ></app-meu-form>
-    <p>Nome digitado no filho: {{ nomeDigitado() }}</p>
+    <p>Nome digitado no filho: {{ nomeDigitadoFilho() }}</p>
     <p>Contador do filho: {{ contadorFilho() }}</p>
   `,
   styles: [`
@@ -22,19 +24,15 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class AppComponent {
-  nomeDigitado = signal('');
+  nomeDigitadoFilho = signal('');
   contadorFilho = signal(0);
 
-  atualizarContador(novoContador: number) {
-    this.contadorFilho.set(novoContador);
-  }
-
-  atualizarNomeDigitadoNao(novoNome: any) {
-    this.nomeDigitado.set(novoNome);
+  incrementar() {
+    this.contadorFilho.update(c => c + 1)
   }
 
   atualizarNomeDigitado(novoNome: any | string) {
-    this.nomeDigitado.update((old: string) =>
+    this.nomeDigitadoFilho.update((old: string) =>
       old != novoNome ? novoNome : old
     );
   }
