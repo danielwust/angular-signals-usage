@@ -1,8 +1,8 @@
 {
-  "name": "Design Quest Web - Dev Container",
+  "name": "Angular 19 - Dev Container",
   "dockerComposeFile": "docker-compose.yml",
   "workspaceFolder": "/workspace/Web",
-  "service": "design_quest_web",
+  "service": "angular_signals",
   "remoteUser": "workspace",
-  "forwardPorts": [5555]
+  "forwardPorts": [4200]
 }

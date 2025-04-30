@@ -1,16 +1,16 @@
 version: '3.9'
 
 services:
-  design_quest_web:
+  angular_signals:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
-    container_name: design-quest-web
+    container_name: angular-signals
     volumes:
       - ~/.ssh:/workspace/.ssh:cached
       - ../:/workspace/Web
     ports:
-      - "5555:5555"
+      - "4200:4200"
     working_dir: /workspace/Web
     stdin_open: true
     tty: true

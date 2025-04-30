@@ -12,10 +12,10 @@ export NVM_DIR="$HOME/.nvm"
 /bin/bash ~/.nvm/nvm.sh
 
 # Install Node Version
-nvm install 20
-nvm alias default 20
+nvm install 18.20
+nvm alias default 18.20
 
-nvm use 20
+nvm use 18.20
 
 # Update SSH Keys Permission
 chmod 600 /workspace/.ssh/*
