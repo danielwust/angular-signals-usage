@@ -36,6 +36,7 @@ import { MeuFormComponent } from './meu-form/meu-form.component';
         <app-meu-form
           [contador]="contador()"
           [nomeDigitado]="nomeDigitado()"
+          [contadorComNome]="contadorComNome()"
           (atualizarNome)="atualizarNome($event)"
           (atualizarContador)="atualizarContador($event)"
         ></app-meu-form>
@@ -48,6 +49,7 @@ import { MeuFormComponent } from './meu-form/meu-form.component';
 export class AppComponent {
   contador = signal(0);
   nomeDigitado = signal('');
+
   contadorComNome = computed(() => `
     ${this.contador()}: ${this.nomeDigitado()}
   `);

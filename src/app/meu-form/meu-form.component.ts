@@ -26,12 +26,10 @@ import { FormsModule } from '@angular/forms';
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MeuFormComponent {
-  nomeDigitado = input<string>();
   contador = input<number>();
+  nomeDigitado = input<string>();
 
-  contadorComNome = computed(() => `
-    ${this.contador()}: ${this.nomeDigitado()}
-  `);
+  contadorComNome = input<string>();
 
   atualizarContador = output<number>();
   atualizarNome = output<any>();
