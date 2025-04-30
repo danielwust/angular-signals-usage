@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  design_quest_web:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    container_name: design-quest-web
+    volumes:
+      - ~/.ssh:/workspace/.ssh:cached
+      - ../:/workspace/Web
+    ports:
+      - "5555:5555"
+    working_dir: /workspace/Web
+    stdin_open: true
+    tty: true
