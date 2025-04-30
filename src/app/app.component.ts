@@ -43,11 +43,27 @@ export class AppComponent {
   contador = signal(0);
   nomeDigitado = signal('');
 
+  /**
+   * Atualiza o valor do Signal 'contador' com o valor do evento.
+   *
+   * @param n É o número hard-coded no elemento HTML, será +1 ou -1.
+   *
+   * @example
+   * <input (input)="atualizarContador(-1)" [value]="contador()">
+   */
   atualizarContador(n = 0) {
-    this.contador.update(c => c - n);
+    this.contador.update(c => c + n);
   }
 
-  atualizarNome(event: any | string) {
+  /**
+   * Atualiza o valor do Signal 'nomeDigitado' com o valor do evento de input.
+   *
+   * @param event O evento de input do elemento HTML. Espera-se que 'event.target.value'
+   *
+   * @example
+   * <input (input)="atualizarNome($event)" [value]="nomeDigitado()">
+   */
+  atualizarNome(event: any) {
     this.nomeDigitado.update(o => event?.target?.value);
   }
 }
