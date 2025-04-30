@@ -1,4 +1,4 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -20,28 +20,37 @@ import { MeuFormComponent } from './meu-form/meu-form.component';
 
         <div>
           <h3>Digite seu nome:</h3>
-          <input type="text" (input)="atualizarNome($event)" [value]="nomeDigitado()">
+          <input type="text" (input)="atualizarNome($any($event.target).value)" [value]="nomeDigitado()">
           <button (click)="atualizarContador(1)">Incrementar Contador</button>
 
           <p>Nome digitado no Pai: {{ nomeDigitado() }}</p>
           <p>Contador do Pai: {{ contador() }}</p>
         </div>
+
+        <div>
+          <p>Dados Combinados: {{ contadorComNome() }}</p>
+        </div>
       </div>
 
       <div>
         <app-meu-form
-          [contador]="contador"
-          [nomeDigitado]="nomeDigitado"
-          [atualizarNome]="atualizarNome"
-          [atualizarContador]="atualizarContador"
+          [contador]="contador()"
+          [nomeDigitado]="nomeDigitado()"
+          (atualizarNome)="atualizarNome($event)"
+          (atualizarContador)="atualizarContador($event)"
         ></app-meu-form>
       </div>
     </div>
   `,
+  // Em caso de falha na reatividade, a variável não será atualizada até que ocorra uma interação (ex: clique)
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   contador = signal(0);
   nomeDigitado = signal('');
+  contadorComNome = computed(() => `
+    ${this.contador()}: ${this.nomeDigitado()}
+  `);
 
   /**
    * Atualiza o valor do Signal 'contador' com o valor do evento.
@@ -63,7 +72,7 @@ export class AppComponent {
    * @example
    * <input (input)="atualizarNome($event)" [value]="nomeDigitado()">
    */
-  atualizarNome(event: any) {
-    this.nomeDigitado.update(o => event?.target?.value);
+  atualizarNome(nome: string) {
+    this.nomeDigitado.update(o => nome);
   }
 }

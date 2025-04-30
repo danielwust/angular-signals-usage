@@ -1,4 +1,4 @@
-import { Component, Input, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -11,18 +11,28 @@ import { FormsModule } from '@angular/forms';
 
     <div>
       <h3>Digite seu nome:</h3>
-      <input type="text" (input)="atualizarNome($event)" [value]="nomeDigitado()">
-      <button (click)="atualizarContador(-1)">Decrementar Contador</button>
+      <input type="text" (input)="atualizarNome.emit($any($event.target).value)" [value]="nomeDigitado()">
+      <button (click)="atualizarContador.emit(-1)">Decrementar Contador</button>
 
       <p>Nome digitado no Filho: {{ nomeDigitado() }}</p>
       <p>Contador do Filho: {{ contador() }}</p>
     </div>
+
+    <div>
+      <p>Dados Combinados: {{ contadorComNome() }}</p>
+    </div>
   `,
+  // Em caso de falha na reatividade, a variável não será atualizada até que ocorra uma interação (ex: clique)
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MeuFormComponent {
-  @Input() nomeDigitado!: WritableSignal<string>;
-  @Input() contador!: WritableSignal<number>;
+  nomeDigitado = input<string>();
+  contador = input<number>();
 
-  @Input() atualizarContador!: (event: any | string) => void;
-  @Input() atualizarNome!: (event: any | string) => void;
+  contadorComNome = computed(() => `
+    ${this.contador()}: ${this.nomeDigitado()}
+  `);
+
+  atualizarContador = output<number>();
+  atualizarNome = output<any>();
 }
